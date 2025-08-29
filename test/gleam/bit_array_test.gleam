@@ -133,6 +133,11 @@ pub fn to_string_test() {
 
   let assert <<_:3, x:bits>> = <<0:3, "ø":utf8>>
   assert bit_array.to_string(x) == Ok("ø")
+
+  // `to_string` should not strip a leading \u{feff} character, as this is only considered
+  // a byte order marker at the beginning of a "text stream" (file, network stream, etc.), and we 
+  // have no way of knowing in this context where the bytes are coming from. 
+  assert bit_array.to_string(<<"\u{feff}wibble":utf8>>) == Ok("\u{feff}wibble")
 }
 
 pub fn is_utf8_test() {

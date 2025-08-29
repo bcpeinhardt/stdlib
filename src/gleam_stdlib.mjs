@@ -348,7 +348,7 @@ export function bit_array_to_string(bit_array) {
   }
 
   try {
-    const decoder = new TextDecoder("utf-8", { fatal: true });
+    const decoder = new TextDecoder("utf-8", { fatal: true, ignoreBOM: true });
 
     if (bit_array.bitOffset === 0) {
       return new Ok(decoder.decode(bit_array.rawBuffer));
